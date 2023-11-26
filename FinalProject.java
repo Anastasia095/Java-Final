@@ -1,5 +1,6 @@
 package final_project;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /*
@@ -97,8 +98,11 @@ public class FinalProject {
 		            if (person instanceof Faculty) {
 		                Faculty facultyObj = (Faculty) person;
 		                if (facultyObj.getId().equals(id)) {
-		                    //call studentObj.tuitionInvoice();
-		                	System.out.println("TEST faculty search works");
+		                	System.out.println("---------------------------------------------------------");
+		                	//I think all the fields should be private so we should change that eventually
+		                	System.out.println(facultyObj.fullName + "\t\t" + facultyObj.id);
+		                	System.out.println(facultyObj.getDepartment() + "\t\t" + facultyObj.getRank());
+		                	System.out.println("---------------------------------------------------------");
 		                } else {
 		                	System.out.println("No Faculty matched!");
 		                }
@@ -106,14 +110,66 @@ public class FinalProject {
 		         }
 				break;
 			case 5:
-				//do something
+				//add staff member
+				System.out.println("Enter the information of a stuff member: ");
+				System.out.println("\tName of the staff member: ");
+				String staffName = input.nextLine();
+				System.out.println("\tID: ");
+				String staffId = input.nextLine();
+				System.out.println("\tDepartment: ");
+				department = input.nextLine();
+				System.out.println("\tStatus, Enter P fpr Part Time, or Enter F for Full Time: ");
+				String status = input.nextLine();
+				
+				Staff staff = new Staff(staffName, staffId);
+				staff.setDepartment(department);
+				staff.setStatus(status);
+				personList.add(staff);
+				System.out.println("Staff member added! \n\n\n");
+				
 				break;
 			case 6:
-				//do something
+				//print staff info
+				System.out.println("Enter the Staff's ID:");
+				id = input.nextLine();
+		        for (Person person : personList) {
+		            if (person instanceof Staff) {
+		                Staff staffObj = (Staff) person;
+		                if (staffObj.getId().equals(id)) {
+		                    //print staff info
+		                	System.out.println("---------------------------------------------------------");
+		                	//I think all the fields should be private so we should change that eventually
+		                	System.out.println(staffObj.fullName + "\t\t" + staffObj.id);
+		                	System.out.println(staffObj.getDepartment() + "\t\t" + staffObj.getStatus());
+		                	System.out.println("---------------------------------------------------------");
+		                } else {
+		                	System.out.println("No Staff matched!");
+		                }
+		            }
+		         }
 				break;
 			case 7:
-				//do something
-				break;
+			    // delete entry
+			    System.out.println("Enter the id of the person to delete: ");
+			    id = input.nextLine();
+			    boolean personFound = false;
+
+			    Iterator<Person> iterator = personList.iterator();
+			    while (iterator.hasNext()) {
+			        Person person = iterator.next();
+			        if (person.getId().equals(id)) {
+			            iterator.remove();
+			            personFound = true;
+			            System.out.println("Person with ID " + id + " deleted.");
+			            break; // Exit the loop once the person is found and deleted
+			        }
+			    }
+
+			    if (!personFound) {
+			        System.out.println("No person with ID " + id + " found.");
+			    }
+			    break;
+
 			case 8:
 				//Exit program
 				System.exit(0);
@@ -273,6 +329,14 @@ class Staff extends Employee {
 	public void print(int credits) {
 		// TODO Auto-generated method stub
 			
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }
 
