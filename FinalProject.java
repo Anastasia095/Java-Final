@@ -1,4 +1,4 @@
-
+package final_project;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,6 +10,9 @@ import java.util.Scanner;
 public class FinalProject {
 	
 	public static void main (String[] args) {
+		//Array list to store our person objects
+		ArrayList<Person> personList = new ArrayList<>(100);
+		
 		Scanner scanner = new Scanner(System.in);
 		boolean t = true;
 		System.out.println("\t\t\t\t\tWelcome to my Personal Management Program\n");
@@ -32,12 +35,12 @@ public class FinalProject {
 		
 			switch(select) {
 			case 1:
-				
-				//do something
+				Scanner input = new Scanner(System.in);
+				System.out.println("Enter the information of a faculty: ");
 				break;
 			case 2:
 				Scanner input = new Scanner(System.in);
-				System.out.println("Enter the student info: ");
+				System.out.println("Enter the information of a student: ");
 				System.out.println("\tName of Student: ");
 				String name = input.nextLine();
 				System.out.println("\tID: ");
@@ -49,7 +52,15 @@ public class FinalProject {
 				int credit = input.nextInt();
 				
 				// NEED to add to arraylist ? personList.add()
-				
+//				personList.add(new Student(name, id));
+				Student student = new Student(name, id);
+				student.setGpa(gpa);
+				student.setCreditHours(credit);
+				personList.add(student);
+				System.out.println("Student added!");
+				//TEST			
+//	            Student firstStudent = (Student) personList.get(0);
+//	            firstStudent.print(3);
 				break;
 			case 3:
 				//do something
@@ -121,6 +132,9 @@ class Student extends Person {
 	@Override
 	public void print(int credits) {
 		// TODO Auto-generated method stub
+		System.out.println(creditHours);
+		System.out.println("TEST");
+		System.out.println(fullName);
 			
 	}
 
