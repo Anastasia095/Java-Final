@@ -64,8 +64,6 @@ public class FinalProject {
 				System.out.println("\tCredit hours: ");
 				int credit = input.nextInt();
 				
-				// NEED to add to arraylist ? personList.add()
-//				personList.add(new Student(name, id));
 				Student student = new Student(StudentName, stuentId);
 				student.setGpa(gpa);
 				student.setCreditHours(credit);
@@ -76,7 +74,19 @@ public class FinalProject {
 //	            firstStudent.print(3);
 				break;
 			case 3:
-				//do something
+				System.out.println("Enter the student's ID:");
+				String id = input.nextLine();
+		        for (Person person : personList) {
+		            if (person instanceof Student) {
+		                Student studentObj = (Student) person;
+		                if (studentObj.getId().equals(id)) {
+		                    //call studentObj.tuitionInvoice();
+		                	System.out.println("TEST student search");
+		                } else {
+		                	System.out.println("No Student matched!");
+		                }
+		            }
+		         }
 				break;
 			case 4:
 				//do something
@@ -118,7 +128,7 @@ abstract class Person {
 		this.id = id;
 	}
 	
-	private ArrayList<Person> personList;
+//	private ArrayList<Person> personList;
 	
 
 	//things common for Student and Employee
@@ -126,6 +136,14 @@ abstract class Person {
 	String id;
 		
 	public abstract void print(int credits);
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }
 	
 //__________________
@@ -176,8 +194,7 @@ class Student extends Person {
 	}
 		
 	public void tuitionInvoice() {
-		
-		
+		//TODO
 	}
 }
 
