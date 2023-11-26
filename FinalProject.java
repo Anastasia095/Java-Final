@@ -81,7 +81,7 @@ public class FinalProject {
 		                Student studentObj = (Student) person;
 		                if (studentObj.getId().equals(id)) {
 		                    //call studentObj.tuitionInvoice();
-		                	System.out.println("TEST student search");
+		                	System.out.println("TEST student search works");
 		                } else {
 		                	System.out.println("No Student matched!");
 		                }
@@ -89,7 +89,21 @@ public class FinalProject {
 		         }
 				break;
 			case 4:
-				//do something
+				//I think redeclaring variables might be  a bad practice, need to look into that later.
+				//apparently cases don't have their own scope
+				System.out.println("Enter the Facultys's ID:");
+				id = input.nextLine();
+		        for (Person person : personList) {
+		            if (person instanceof Faculty) {
+		                Faculty facultyObj = (Faculty) person;
+		                if (facultyObj.getId().equals(id)) {
+		                    //call studentObj.tuitionInvoice();
+		                	System.out.println("TEST faculty search works");
+		                } else {
+		                	System.out.println("No Faculty matched!");
+		                }
+		            }
+		         }
 				break;
 			case 5:
 				//do something
