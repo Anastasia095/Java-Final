@@ -30,21 +30,34 @@ public class FinalProject {
 			System.out.println("7- Delete a person");
 			System.out.println("8- Exit Program");
 		
-			//get use input
+			//get user input
 			int select = scanner.nextInt();
+			Scanner input = new Scanner(System.in);
 		
 			switch(select) {
 			case 1:
-				Scanner input = new Scanner(System.in);
 				System.out.println("Enter the information of a faculty: ");
+				System.out.println("\tName of the faculty: ");
+				String facultyName = input.nextLine();
+				System.out.println("\tID: ");
+				String facultyId = input.nextLine();
+				System.out.println("\tRank: ");
+				String rank = input.nextLine();
+				System.out.println("\tDepartment: ");
+				String department = input.nextLine();
+				Faculty faculty = new Faculty(facultyName, facultyId);
+				faculty.setRank(rank);
+				faculty.setDepartment(department);
+				personList.add(faculty);
+				System.out.println("Faculty added! \n\n\n");
+				
 				break;
 			case 2:
-				Scanner input = new Scanner(System.in);
 				System.out.println("Enter the information of a student: ");
 				System.out.println("\tName of Student: ");
-				String name = input.nextLine();
+				String StudentName = input.nextLine();
 				System.out.println("\tID: ");
-				String id = input.nextLine();
+				String stuentId = input.nextLine();
 				// NEED to TEST FOR ID FORMAT STILL
 				System.out.println("\tGpa: ");
 				double gpa = input.nextDouble();
@@ -53,11 +66,11 @@ public class FinalProject {
 				
 				// NEED to add to arraylist ? personList.add()
 //				personList.add(new Student(name, id));
-				Student student = new Student(name, id);
+				Student student = new Student(StudentName, stuentId);
 				student.setGpa(gpa);
 				student.setCreditHours(credit);
 				personList.add(student);
-				System.out.println("Student added!");
+				System.out.println("Student added! \n\n\n");
 				//TEST			
 //	            Student firstStudent = (Student) personList.get(0);
 //	            firstStudent.print(3);
