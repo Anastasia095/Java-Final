@@ -5,7 +5,10 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+//date for the report
+import java.time.LocalDate;
 
 /*
  * - Final Project
@@ -33,13 +36,12 @@ public class FinalProject {
 	
 	
 	
-	public static void main (String[] args) {
+	public static void main (String[] args) throws FileNotFoundException {
 		//Array list to store our person objects
 		ArrayList<Person> personList = new ArrayList<>(100);
 		//stuff for file generation
-//        File lecturesOnly = new File("lecturesOnly.txt");
-//        PrintWriter writer = new PrintWriter(lecturesOnly);
-//        Scanner scanner = new Scanner(file);
+        File report = new File("report.txt");
+        PrintWriter writer = new PrintWriter(report);
 		
 		Scanner scanner = new Scanner(System.in);
 		boolean t = true;
@@ -415,7 +417,12 @@ public class FinalProject {
 
 		            if (response.equalsIgnoreCase("Y")) {
 		                // do the report
+		            	//get todays date
+		            	LocalDate date = LocalDate.now();
+		            	writer.print("Report created on " + date);
+		            	writer.print("***********Fuck YEah*****************");
 		                input.close();
+		                writer.close();
 		                System.exit(0);
 		            } else if (response.equalsIgnoreCase("N")) {
 		            	input.close();
