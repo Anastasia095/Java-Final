@@ -1,14 +1,11 @@
 package final_project;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-//date for the report
-import java.time.LocalDate;
 
 /*
  * - Final Project
@@ -36,12 +33,9 @@ public class FinalProject {
 	
 	
 	
-	public static void main (String[] args) throws FileNotFoundException {
+	public static void main (String[] args) throws FileNotFoundException{
 		//Array list to store our person objects
 		ArrayList<Person> personList = new ArrayList<>(100);
-		//stuff for file generation
-        File report = new File("report.txt");
-        PrintWriter writer = new PrintWriter(report);
 		
 		Scanner scanner = new Scanner(System.in);
 		boolean t = true;
@@ -274,10 +268,12 @@ public class FinalProject {
 				//apparently cases don't have their own scope
 				System.out.println("Enter the Facultys's ID:");
 				id = input.nextLine();
+				boolean flag = false; 
 		        for (Person person : personList) {
 		            if (person instanceof Faculty) {
 		                Faculty facultyObj = (Faculty) person;
 		                if (facultyObj.getId().equals(id)) {
+		                	flag = true;
 		                	System.out.println("---------------------------------------------------------");
 		                	System.out.println("----------------");
 		                	//I think all the fields should be private so we should change that eventually
@@ -285,13 +281,14 @@ public class FinalProject {
 		                	System.out.println(facultyObj.getDepartment() + " Department,  \t" + facultyObj.getRank());
 		                	System.out.println("---------------------------------------------------------");
 		                	System.out.println("----------------\n\n\n");
-		                } else {
-
-		                }
-		            } else {
-		            	System.out.println("No Faculty matched!");
+		                } 
 		            }
 		         }
+		        if(!flag)
+		        {		        
+		        	System.out.println("No Faculty matched!\n\n\n");
+		        
+		        }
 		        
 				break;
 				
@@ -409,29 +406,52 @@ public class FinalProject {
 
 			case "8":
 				//Exit program
-		        boolean validResponse = false;
-
-		        do {
-		            System.out.println("Would you like to create a report? (Y/N)");
-		            String response = input.nextLine();
-
-		            if (response.equalsIgnoreCase("Y")) {
-		                // do the report
-		            	//get todays date
-		            	LocalDate date = LocalDate.now();
-		            	writer.print("Report created on " + date);
-		            	writer.print("***********Fuck YEah*****************");
-		                input.close();
-		                writer.close();
-		                System.exit(0);
-		            } else if (response.equalsIgnoreCase("N")) {
-		            	input.close();
-		                System.exit(0);
-		            } else {
-		                System.out.println("Invalid entry. Please enter 'Y' or 'N'.");
-		            }
-		        } while (!validResponse);
-
+				PrintWriter writer = new PrintWriter("report.txt");
+				int n = 0;
+				while(n == 0) {
+					
+					System.out.println("\nWould you like to create the report? (Y/N) :");
+					String response = input.nextLine();
+					
+					if(response.compareToIgnoreCase("Y") == 0) {
+						
+						int q = 0;
+						while(q == 0) {
+							
+							System.out.println("Would you like to sort your students by descending gpa or name");
+							System.out.println("(Enter 1 for gpa, 2 for name) : ");
+							String sort = input.nextLine();
+							
+							if(sort.compareToIgnoreCase("1") == 0) {
+								// Sort by gpa.
+								
+			
+								
+							} else if (sort.compareToIgnoreCase("2") == 0) {
+								// Sort by name
+								
+								
+								
+							} else {
+								System.out.println("Invalid Entry");
+								System.out.println("Please enter \"1\" for gpa or \"2\" for name.");
+								q = 0;
+							}
+						}
+						
+					} else if (response.compareToIgnoreCase("N") == 0){
+					
+						
+						
+						
+						
+						
+					} else {
+						System.out.println("\tInvalid Entry");
+						System.out.println("\tPlease Enter \"Y\" or \"N\"\n");
+					}
+				}
+				
 			default: 
 				System.out.println("\nInvalid entry- please try again\n\n\n");
 			}
