@@ -59,6 +59,7 @@ public class FinalProject {
 			//get user input
 			String select = scanner.nextLine();
 			Scanner input = new Scanner(System.in);
+			boolean found = false;
 		
 			switch(select) {
 			
@@ -245,6 +246,7 @@ public class FinalProject {
 		                
 		                           
 		                if (studentObj.getId().equals(id)) {
+		                	found = true;
 		                	System.out.println("---------------------------------------------------------");
 		                	System.out.println("----------------");
 		                	//I think all the fields should be private so we should change that eventually
@@ -255,11 +257,16 @@ public class FinalProject {
 		                	System.out.printf("\n($%.2f discount applied)\n", discount);
 		                	System.out.println("---------------------------------------------------------");
 		                	System.out.println("----------------\n\n\n");
-		                } else {
-		                	System.out.println("No Student matched!\n\n\n");
-		                }
+		                	break;
+		                } 
 		            }
 		         }
+                if(!found) {
+		        	System.out.println("No Student matched!\n\n\n");
+                } else {
+                	//reset found
+                	found = false;
+                }
 		        
 				break;
 				
@@ -268,12 +275,11 @@ public class FinalProject {
 				//apparently cases don't have their own scope
 				System.out.println("Enter the Facultys's ID:");
 				id = input.nextLine();
-				boolean flag = false; 
 		        for (Person person : personList) {
 		            if (person instanceof Faculty) {
 		                Faculty facultyObj = (Faculty) person;
 		                if (facultyObj.getId().equals(id)) {
-		                	flag = true;
+		                	found = true;
 		                	System.out.println("---------------------------------------------------------");
 		                	System.out.println("----------------");
 		                	//I think all the fields should be private so we should change that eventually
@@ -284,20 +290,22 @@ public class FinalProject {
 		                } 
 		            }
 		         }
-		        if(!flag)
+		        if(!found)
 		        {		        
 		        	System.out.println("No Faculty matched!\n\n\n");
 		        
+		        } else {
+		        	//reset found
+		        	found = false;	
 		        }
-		        
+	        	
 				break;
 				
 			case "5":
 				//add staff member
 				System.out.println("Enter the information of a stuff member: ");
 				System.out.println("\tName of the staff member: ");
-				String staffName = input.nextLine();
-				
+				String staffName = input.nextLine();	
 				String staffId = null;
 				int x = 0;
 				while(x == 0) {
@@ -366,6 +374,7 @@ public class FinalProject {
 		            if (person instanceof Staff) {
 		                Staff staffObj = (Staff) person;
 		                if (staffObj.getId().equals(id)) {
+		                	found = true;
 		                    //print staff info
 		                	System.out.println("---------------------------------------------------------");
 		                	System.out.println("----------------");
@@ -374,11 +383,19 @@ public class FinalProject {
 		                	System.out.println(staffObj.getDepartment() + " Department, \t" + staffObj.getStatus());
 		                	System.out.println("---------------------------------------------------------");
 		                	System.out.println("----------------");
-		                } else {
-		                	System.out.println("No Staff member matched!");
-		                }
+		                	break;
+		                } 
 		            }
 		         }
+		        
+		        if(!found)
+		        {		        
+		        	System.out.println("No Staff matched!\n\n\n");
+		        
+		        } else {
+		        	//reset found
+		        	found = false;	
+		        }
 		        
 				break;
 				
