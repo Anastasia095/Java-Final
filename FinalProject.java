@@ -425,7 +425,9 @@ public class FinalProject {
 							if(sort.compareToIgnoreCase("1") == 0) {
 								// Sort by gpa.
 								
-			
+								
+								
+								
 								
 							} else if (sort.compareToIgnoreCase("2") == 0) {
 								// Sort by name
@@ -441,7 +443,6 @@ public class FinalProject {
 						
 					} else if (response.compareToIgnoreCase("N") == 0){
 					
-						
 						
 						
 						
