@@ -66,7 +66,6 @@ public class FinalProject {
 			case "1":
 				
 				System.out.println("Enter the information of a faculty: ");
-				
 				System.out.println("\tName of the faculty: ");
 				String facultyName = input.nextLine();
 				
@@ -153,10 +152,8 @@ public class FinalProject {
 			case "2":
 				
 				System.out.println("Enter the information of a student: ");
-				
 				System.out.println("\tName of Student: ");
-				String studentName = input.nextLine();
-				
+				String studentName = input.nextLine();	
 				String studentId = null;
 				int y = 0;
 				while(y == 0) {
@@ -192,11 +189,7 @@ public class FinalProject {
 						System.out.println("\tInvalid GPA format.");
 						System.out.println("\tMust be a value between 0.00 and 4.00 rounded to two decimals.");
 						y = 0;
-					}
-					
-					
-						
-					
+					}	
 				}
 				student.setGpa(gpa);
 				
@@ -220,9 +213,6 @@ public class FinalProject {
 				
 				personList.add(student);
 				System.out.println("Student added! \n\n\n");
-				//TEST			
-//	            Student firstStudent = (Student) personList.get(0);
-//	            firstStudent.print(3);
 				
 				break;
 				
@@ -231,32 +221,11 @@ public class FinalProject {
 				System.out.println("Enter the student's ID:");
 				String id = input.nextLine();
 		        for (Person person : personList) {
-		        	
-		            if (person instanceof Student) {
-		            	
+		            if (person instanceof Student) {	
 		                Student studentObj = (Student) person;
-		                int fee = 52;
-		                double total = studentObj.getCreditHours() * 236.45 + 52;
-		                double discount = 0.0;
-		                
-		                if(studentObj.getGpa() >= 3.85) {
-		                	discount = total * 0.25;
-		                	total = total - discount;
-		                }
-		                
-		                           
 		                if (studentObj.getId().equals(id)) {
 		                	found = true;
-		                	System.out.println("---------------------------------------------------------");
-		                	System.out.println("----------------");
-		                	//I think all the fields should be private so we should change that eventually
-		                	System.out.println(studentObj.getfullName() + "\t\t" + studentObj.getId());
-		                	System.out.println("Credit Hours: " + studentObj.getCreditHours() + " ($236.45/credit hour)");
-		                	System.out.println("Fees: $" + fee);
-		                	System.out.printf("\nTotal payment (after discount):  %.2f", total);
-		                	System.out.printf("\n($%.2f discount applied)\n", discount);
-		                	System.out.println("---------------------------------------------------------");
-		                	System.out.println("----------------\n\n\n");
+		                	studentObj.print();
 		                	break;
 		                } 
 		            }
@@ -271,8 +240,6 @@ public class FinalProject {
 				break;
 				
 			case "4":
-				//I think redeclaring variables might be  a bad practice, need to look into that later.
-				//apparently cases don't have their own scope
 				System.out.println("Enter the Facultys's ID:");
 				id = input.nextLine();
 		        for (Person person : personList) {
@@ -478,14 +445,6 @@ public class FinalProject {
 }
 
 
-//------------------
-interface Int1 {
-	//not sure what methods I need to create, 
-	// but I need some other class to implement it
-	void displayData();
-	int calculate(int x, int y);
-}
-
 //___________________
 abstract class Person {
 	
@@ -495,15 +454,11 @@ abstract class Person {
 		this.id = id;
 	}
 	
-//	private ArrayList<Person> personList;
-	
-
 	//things common for Student and Employee
-	// NEed to be private
 	private String fullName;
 	private String id;
 		
-	public abstract void print(int credits);
+	public abstract void print();
 
 	public String getId() {
 		return id;
@@ -531,20 +486,42 @@ class Student extends Person {
 	
 	public Student(String fullName, String id) {
 		super(fullName, id);
-		// TODO Auto-generated constructor stub
 		}
 	
 
 	private double gpa;
 	private int creditHours;
+	//check if this could be static
+	private static int fee = 52;
+	private static double creditPrice = 236.45;
+	
+//    if(studentObj.getGpa() >= 3.85) {
+//    	discount = total * 0.25;
+//    	total = total - discount;
+//    }
+	
+	private double discount() {
+		double discount = 0.00; 
+		if(getGpa() >= 3.85) {
+			discount = creditPrice * getCreditHours() + fee;
+		}
 		
+		return discount;
+	}
+//		
 	//Student should get 25% discount if the GPA is higher than 3.85
 	@Override
-	public void print(int credits) {
-		// TODO Auto-generated method stub
-		System.out.println(creditHours);
-		System.out.println("TEST");
-		//System.out.println(fullName);
+	public void print() {
+    	System.out.println("---------------------------------------------------------");
+    	System.out.println("----------------");
+    	//I think all the fields should be private so we should change that eventually
+    	System.out.println(getfullName() + "\t\t" + getId());
+    	System.out.println("Credit Hours: " + getCreditHours() + " ($236.45/credit hour)");
+    	System.out.println("Fees: $" + fee);
+    	System.out.printf("\nTotal payment (after discount):  %.2f", getCreditHours() * creditPrice + fee - discount());
+    	System.out.printf("\n($%.2f discount applied)\n", discount());
+    	System.out.println("---------------------------------------------------------");
+    	System.out.println("----------------\n\n\n");
 			
 	}
 
@@ -568,13 +545,8 @@ class Student extends Person {
 		super(fullName, id);
 		this.gpa = gpa;
 		this.creditHours = creditHours;
-		
-		
 	}
 		
-	public void tuitionInvoice() {
-		//TODO
-	}
 }
 
 //______________________
@@ -583,7 +555,6 @@ abstract class Employee extends Person{
 	
 	public Employee(String fullName, String id) {
 		super(fullName, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	//things common for staff and faculty
@@ -604,7 +575,6 @@ class Faculty extends Employee{
 	
 	public Faculty(String fullName, String id) {
 		super(fullName, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	// Needs to be private
@@ -631,7 +601,6 @@ class Staff extends Employee {
 	
 	public Staff(String fullName, String id) {
 		super(fullName, id);
-		// TODO Auto-generated constructor stub
 	}
 
 	// Needs to be private.
