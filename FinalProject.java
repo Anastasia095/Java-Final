@@ -2,10 +2,14 @@ package final_project;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.*;
+
 
 /*
  * - Final Project
@@ -28,9 +32,6 @@ public class FinalProject {
 		return m.matches();
 		
 	}
-	
-	
-	
 	
 	
 	public static void main (String[] args) throws FileNotFoundException{
@@ -217,7 +218,6 @@ public class FinalProject {
 				break;
 				
 			case "3":
-				
 				System.out.println("Enter the student's ID:");
 				String id = input.nextLine();
 		        for (Person person : personList) {
@@ -247,13 +247,7 @@ public class FinalProject {
 		                Faculty facultyObj = (Faculty) person;
 		                if (facultyObj.getId().equals(id)) {
 		                	found = true;
-		                	System.out.println("---------------------------------------------------------");
-		                	System.out.println("----------------");
-		                	//I think all the fields should be private so we should change that eventually
-		                	System.out.println(facultyObj.getfullName() + "\t\t" + facultyObj.getId());
-		                	System.out.println(facultyObj.getDepartment() + " Department,  \t" + facultyObj.getRank());
-		                	System.out.println("---------------------------------------------------------");
-		                	System.out.println("----------------\n\n\n");
+		                	facultyObj.print();
 		                } 
 		            }
 		         }
@@ -343,13 +337,6 @@ public class FinalProject {
 		                if (staffObj.getId().equals(id)) {
 		                	found = true;
 		                    //print staff info
-		                	System.out.println("---------------------------------------------------------");
-		                	System.out.println("----------------");
-		                	//I think all the fields should be private so we should change that eventually
-		                	System.out.println(staffObj.getfullName() + "\t\t" + staffObj.getId());
-		                	System.out.println(staffObj.getDepartment() + " Department, \t" + staffObj.getStatus());
-		                	System.out.println("---------------------------------------------------------");
-		                	System.out.println("----------------");
 		                	break;
 		                } 
 		            }
@@ -389,53 +376,124 @@ public class FinalProject {
 			    break;
 
 			case "8":
-				//Exit program
-				PrintWriter writer = new PrintWriter("report.txt");
-				int n = 0;
-				while(n == 0) {
-					
-					System.out.println("\nWould you like to create the report? (Y/N) :");
-					String response = input.nextLine();
-					
-					if(response.compareToIgnoreCase("Y") == 0) {
-						
-						int q = 0;
-						while(q == 0) {
-							
-							System.out.println("Would you like to sort your students by descending gpa or name");
-							System.out.println("(Enter 1 for gpa, 2 for name) : ");
-							String sort = input.nextLine();
-							
-							if(sort.compareToIgnoreCase("1") == 0) {
-								// Sort by gpa.
-								
-								
-								
-								
-								
-							} else if (sort.compareToIgnoreCase("2") == 0) {
-								// Sort by name
-								
-								
-								
-							} else {
-								System.out.println("Invalid Entry");
-								System.out.println("Please enter \"1\" for gpa or \"2\" for name.");
-								q = 0;
-							}
-						}
-						
-					} else if (response.compareToIgnoreCase("N") == 0){
-					
-						
-						
-						
-						
-					} else {
-						System.out.println("\tInvalid Entry");
-						System.out.println("\tPlease Enter \"Y\" or \"N\"\n");
-					}
-				}
+			    // Exit program
+			    PrintWriter writer = new PrintWriter("report.txt");
+			    
+			    // Ask if the user wants to create a report
+			    System.out.println("\nWould you like to create the report? (Y/N) :");
+			    String response = input.nextLine();
+			    
+			    if (response.compareToIgnoreCase("Y") == 0) {
+			    	LocalDate date = LocalDate.now();
+			    	
+	            	writer.print("Report created on " + date + "\n");
+	            	writer.print("***************************");
+	            	 writer.println("Faculty Members \n");
+	                 writer.println("-----------");
+	                 int count1 = 0;
+	                 for (Person facultyPrint : personList) {
+	                	    if (facultyPrint instanceof Faculty) {
+	                	        writer.printf("%d. %s%n", count1, facultyPrint.getfullName());
+	                	        writer.printf("ID: %s%n", facultyPrint.getId());
+
+	                	        // Cast facultyPrint to Faculty to access specific methods
+	                	        Faculty faculty1 = (Faculty) facultyPrint;
+	                	        writer.printf("%s, %s%n", faculty1.getRank(), faculty1.getDepartment());
+	                	        writer.println();
+
+	                	        count1++;
+	                	    }
+	                	}
+
+	            	 writer.println("Staff  \n");
+	                 writer.println("-----------");
+	                 int count2 = 0;
+	                 for (Person staffPrint : personList) {
+	                	    if (staffPrint instanceof Staff) {
+	                	        writer.printf("%d. %s%n", count1, staffPrint.getfullName());
+	                	        writer.printf("ID: %s%n", staffPrint.getId());
+
+	                	        // Cast facultyPrint to Faculty to access specific methods
+	                	        Staff staff1 = (Staff) staffPrint;
+	                	        writer.printf("%s, %s%n", staff1.getDepartment(), staff1.getStatus());
+	                	        writer.println();
+
+	                	        count2++;
+	                	    }
+	                	}
+
+
+			        int q = 0;
+			        while (q == 0) {
+			            // Ask how the user wants to sort students
+			            System.out.println("How do you want to sort students?");
+			            System.out.println("1. Sort by descending GPA");
+			            System.out.println("2. Sort by name");
+			            String sort = input.nextLine();
+
+			            if (sort.compareToIgnoreCase("1") == 0) {
+			                // Filter out only Student objects
+			                ArrayList<Student> studentList = new ArrayList<>();
+			                for (Person person : personList) {
+			                    if (person instanceof Student) {
+			                        studentList.add((Student) person);
+			                    }
+			                }
+
+			                // Sort the ArrayList of students in descending order based on GPA
+			                Collections.sort(studentList, Comparator.comparingDouble(Student::getGpa).reversed());
+
+			                // Clear the original personList of Student objects
+			                personList.removeAll(studentList);
+
+			                // Add the sorted studentList back to the original personList
+			                personList.addAll(studentList);
+
+			                q = 1;
+			            	 writer.println("Students \n");
+			                 writer.println("-----------");
+			                 int count = 1;
+			                 for (Student studentt : studentList) {
+			                     writer.printf("%d. %s%n", count, studentt.getfullName());
+			                     writer.printf("ID: %s%n", studentt.getId());
+			                     writer.printf("Gpa: %.2f%n", studentt.getGpa());
+			                     writer.printf("Credit hours: %d%n", studentt.getCreditHours());
+			                     writer.println();
+			                     count++;
+			                 }
+			            	
+			                input.close();
+			                writer.close();
+			                System.exit(0);
+			                
+			            } else if (sort.compareToIgnoreCase("2") == 0) {
+			                ArrayList<Student> studentList = new ArrayList<>();
+			                for (Person person : personList) {
+			                    if (person instanceof Student) {
+			                        studentList.add((Student) person);
+			                    }
+			                }
+			                // Sort the entire personList by name
+			                Collections.sort(studentList);
+			                // Clear the original personList of Student objects
+			                personList.removeAll(studentList);
+
+			                // Add the sorted studentList back to the original personList
+			                personList.addAll(studentList);
+			                q = 1;
+			            } else {
+			                System.out.println("\tInvalid Entry");
+			                System.out.println("\tPlease Enter 1 or 2\n");
+			            }
+			        }
+			    } else if (response.compareToIgnoreCase("N") == 0) {
+			    	System.exit(0);
+			    } else {
+			        System.out.println("\tInvalid Entry");
+			        System.out.println("\tPlease Enter \"Y\" or \"N\"\n");
+			    }
+			    break;
+
 				
 			default: 
 				System.out.println("\nInvalid entry- please try again\n\n\n");
@@ -482,7 +540,7 @@ abstract class Person {
 	
 //__________________
 //inherits from Person
-class Student extends Person {
+class Student extends Person implements Comparable<Student>{
 	
 	public Student(String fullName, String id) {
 		super(fullName, id);
@@ -491,19 +549,13 @@ class Student extends Person {
 
 	private double gpa;
 	private int creditHours;
-	//check if this could be static
 	private static int fee = 52;
 	private static double creditPrice = 236.45;
-	
-//    if(studentObj.getGpa() >= 3.85) {
-//    	discount = total * 0.25;
-//    	total = total - discount;
-//    }
 	
 	private double discount() {
 		double discount = 0.00; 
 		if(getGpa() >= 3.85) {
-			discount = creditPrice * getCreditHours() + fee;
+			discount = 0.25 * (creditPrice * getCreditHours() + fee);
 		}
 		
 		return discount;
@@ -518,7 +570,7 @@ class Student extends Person {
     	System.out.println(getfullName() + "\t\t" + getId());
     	System.out.println("Credit Hours: " + getCreditHours() + " ($236.45/credit hour)");
     	System.out.println("Fees: $" + fee);
-    	System.out.printf("\nTotal payment (after discount):  %.2f", getCreditHours() * creditPrice + fee - discount());
+    	System.out.printf("\nTotal payment (after discount):  %.2f", (getCreditHours() * creditPrice) + fee - discount());
     	System.out.printf("\n($%.2f discount applied)\n", discount());
     	System.out.println("---------------------------------------------------------");
     	System.out.println("----------------\n\n\n");
@@ -546,6 +598,12 @@ class Student extends Person {
 		this.gpa = gpa;
 		this.creditHours = creditHours;
 	}
+	
+	@Override
+    public int compareTo(Student otherStudent) {
+        // Compare students based on GPA
+        return Double.compare(otherStudent.getGpa(), this.getGpa());
+    }
 		
 }
 
@@ -558,7 +616,6 @@ abstract class Employee extends Person{
 	}
 
 	//things common for staff and faculty
-	// Needs to be private.
 	private String department;
 
 	public String getDepartment() {
@@ -580,11 +637,16 @@ class Faculty extends Employee{
 	// Needs to be private
 	private String rank;
 
-	@Override
-	public void print(int credits) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void print() {
+    	System.out.println("---------------------------------------------------------");
+    	System.out.println("----------------");
+    	//I think all the fields should be private so we should change that eventually
+    	System.out.println(getfullName() + "\t\t" + getId());
+    	System.out.println(getDepartment() + " Department,  \t" + getRank());
+    	System.out.println("---------------------------------------------------------");
+    	System.out.println("----------------\n\n\n");
+    }
 
 	public String getRank() {
 		return rank;
@@ -607,9 +669,13 @@ class Staff extends Employee {
 	private String status;
 
 	@Override
-	public void print(int credits) {
-		// TODO Auto-generated method stub
-			
+	public void print() {
+    	System.out.println("---------------------------------------------------------");
+    	System.out.println("----------------");
+    	System.out.println(getfullName() + "\t\t" + getId());
+    	System.out.println(getDepartment() + " Department, \t" + getStatus());
+    	System.out.println("---------------------------------------------------------");
+    	System.out.println("----------------");
 	}
 
 	public String getStatus() {
