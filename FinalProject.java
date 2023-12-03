@@ -75,6 +75,7 @@ public class FinalProject {
 			String select = scanner.nextLine();
 			Scanner input = new Scanner(System.in);
 			boolean found = false;
+			boolean duplicate = false;
 		
 			switch(select) {
 			
@@ -87,23 +88,14 @@ case "1":
 				
 				int checkInt = 0;
 				//i'm flipping it so its easier to read (Ana)
-				boolean duplicate = false;
 				while (checkInt == 0) {
 					System.out.println("\tID: ");
 					facultyId = input.nextLine();
+					facultyId = facultyId.toLowerCase();
 					//reset duplicate
 					duplicate = false;
 					if(checkId(facultyId) == true) {
 						duplicate = checkDuplicate(facultyId, personList);
-//						for (Person person : personList) {
-//							if(person.getId().contains(facultyId)) {
-//								System.out.println("\tDuplicate ID detected.");
-//								System.out.println("\tTwo people must not have the same ID.\n");
-//								//if duplicate found break out of the loop
-//								duplicate = true;
-//								break;
-//							}
-//						}
 						if (!duplicate) {
 							//if no duplicate found set z to 1 to get out of the while
 							System.out.println("check if this happens\n");
