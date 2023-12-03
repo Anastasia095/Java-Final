@@ -33,17 +33,31 @@ public class FinalProject {
 		
 	}
 	
+	public static boolean checkDuplicate(String id, ArrayList<Person> personList) {
+		boolean duplicate = false;
+		for (Person person : personList) {
+			if(person.getId().contains(id)) {
+				System.out.println("\tDuplicate ID detected.");
+				System.out.println("\tTwo people must not have the same ID.\n");
+				//if duplicate found break out of the loop
+				duplicate = true;
+				break;
+			}
+		}
+		return duplicate;
+	}
+	
 	
 	public static void main (String[] args) throws FileNotFoundException{
 		//Array list to store our person objects
 		ArrayList<Person> personList = new ArrayList<>(100);
 		
 		Scanner scanner = new Scanner(System.in);
-		boolean t = true;
+		boolean runVar = true;
 		System.out.println("\t\t\t\t\tWelcome to my Personal Management Program\n");
 		System.out.println("Choose one of the options:\n");
 		
-		while (t = true) {
+		while (runVar = true) {
 			
 				//Test code goes here 
 			
@@ -64,35 +78,36 @@ public class FinalProject {
 		
 			switch(select) {
 			
-			case "1":
+case "1":
 				
 				System.out.println("Enter the information of a faculty: ");
 				System.out.println("\tName of the faculty: ");
 				String facultyName = input.nextLine();
-				
 				String facultyId = null;
-				int z = 0;
-				boolean f = true;
-				while (z == 0) {
+				
+				int checkInt = 0;
+				//i'm flipping it so its easier to read (Ana)
+				boolean duplicate = false;
+				while (checkInt == 0) {
 					System.out.println("\tID: ");
 					facultyId = input.nextLine();
-					
+					//reset duplicate
+					duplicate = false;
 					if(checkId(facultyId) == true) {
-						for (Person person : personList) {
-							if(person.getId().contains(facultyId)) {
-								System.out.println("\tDuplicate ID detected.");
-								System.out.println("\tTwo people must not have the same ID.\n");
-								f = false;
-							}
-							else {
-								f = true;
-								z = 1;
-							}
-						}
-						if (f == false) {
-							z = 0;
-						} else {
-							z = 1;
+						duplicate = checkDuplicate(facultyId, personList);
+//						for (Person person : personList) {
+//							if(person.getId().contains(facultyId)) {
+//								System.out.println("\tDuplicate ID detected.");
+//								System.out.println("\tTwo people must not have the same ID.\n");
+//								//if duplicate found break out of the loop
+//								duplicate = true;
+//								break;
+//							}
+//						}
+						if (!duplicate) {
+							//if no duplicate found set z to 1 to get out of the while
+							System.out.println("check if this happens\n");
+							checkInt = 1;
 						}
 					}
 					else {
@@ -104,19 +119,19 @@ public class FinalProject {
 				
 				Faculty faculty = new Faculty(facultyName, facultyId);
 				
-				z = 0;
-				while (z == 0) {
+				checkInt = 0;
+				while (checkInt == 0) {
 					System.out.println("\tRank: ");
 					String rank = input.nextLine();
 					if(rank.compareToIgnoreCase("Professor") == 0) {
 						rank = "Professor";
 						faculty.setRank(rank);
-						z = 1;
+						checkInt = 1;
 						
 					} else if (rank.compareToIgnoreCase("Adjunct") == 0) {
 						rank = "Adjunct";
 						faculty.setRank(rank);
-						z = 1;
+						checkInt = 1;
 						
 					}
 					else {
@@ -124,22 +139,22 @@ public class FinalProject {
 					}
 				}
 				
-				z = 0;
-				while (z == 0) {
+				checkInt = 0;
+				while (checkInt == 0) {
 					System.out.println("\tDepartment: ");
 					String department = input.nextLine();
 					if(department.compareToIgnoreCase("Mathematics") == 0) {
 						department = "Mathematics";
 						faculty.setDepartment(department);
-						z = 1;
+						checkInt = 1;
 					} else if (department.compareToIgnoreCase("Engineering") == 0) {
 						department = "Engineering";
 						faculty.setDepartment(department);
-						z = 1;
+						checkInt = 1;
 					} else if (department.compareToIgnoreCase("English") == 0) {
 						department = "English";
 						faculty.setDepartment(department);
-						z = 1;
+						checkInt = 1;
 					} else {
 						System.out.println("\t\"" + department + "\" is invalid");
 					}
@@ -156,28 +171,43 @@ public class FinalProject {
 				System.out.println("\tName of Student: ");
 				String studentName = input.nextLine();	
 				String studentId = null;
-				int y = 0;
-				while(y == 0) {
+				checkInt = 0;
+				while(checkInt == 0) {
 					
 					System.out.println("\tID: ");
 					studentId = input.nextLine();
+					studentId = studentId.toLowerCase();
 					
 					if(checkId(studentId) == true) {
-						y = 1;
+						for (Person person : personList) {
+							if(person.getId().contains(studentId)) {
+								System.out.println("\tDuplicate ID detected.");
+								System.out.println("\tTwo people must not have the same ID.\n");
+							}
+							else {
+								checkInt = 1;
+							}
+						}
+//						if (counter > 0) {
+//							checkInt = 0;
+//						} else {
+//							checkInt = 1;
+//						}
 					}
 					else {
 						System.out.println("\tInvalid ID format.");
-						System.out.println("\tMust be LetterLetterDigitDigitDigitDigit");
+						System.out.println("\tMust be LetterLetterDigitDigitDigitDigit\n");
+						
 					}
 				}
 				
 				Student student = new Student(studentName, studentId);
 				
-				y = 0;
+				checkInt = 0;
 				double gpa = 0.00;
-				while(y == 0) {
+				while(checkInt == 0) {
 					
-					y = 1;
+					checkInt = 1;
 					
 					try {
 						System.out.println("\tGpa: ");
@@ -189,16 +219,16 @@ public class FinalProject {
 					catch(Exception e) {
 						System.out.println("\tInvalid GPA format.");
 						System.out.println("\tMust be a value between 0.00 and 4.00 rounded to two decimals.");
-						y = 0;
+						checkInt = 0;
 					}	
 				}
 				student.setGpa(gpa);
 				
-				y = 0;
+				checkInt = 0;
 				int credit = 0;
-				while(y == 0) {
+				while(checkInt == 0) {
 					
-					y = 1;
+					checkInt = 1;
 					
 					try {
 						System.out.println("\tCredit hours: ");
@@ -207,7 +237,7 @@ public class FinalProject {
 					catch(Exception e) {
 						System.out.println("\tInvalid Credit Hour format.");
 						System.out.println("\tMust be a numerical value.");
-						y = 0;
+						checkInt = 0;
 					}
 				}
 				student.setCreditHours(credit);
@@ -220,6 +250,7 @@ public class FinalProject {
 			case "3":
 				System.out.println("Enter the student's ID:");
 				String id = input.nextLine();
+				id = id.toLowerCase();
 		        for (Person person : personList) {
 		            if (person instanceof Student) {	
 		                Student studentObj = (Student) person;
@@ -242,6 +273,7 @@ public class FinalProject {
 			case "4":
 				System.out.println("Enter the Facultys's ID:");
 				id = input.nextLine();
+				id = id.toLowerCase();
 		        for (Person person : personList) {
 		            if (person instanceof Faculty) {
 		                Faculty facultyObj = (Faculty) person;
@@ -268,55 +300,71 @@ public class FinalProject {
 				System.out.println("\tName of the staff member: ");
 				String staffName = input.nextLine();	
 				String staffId = null;
-				int x = 0;
-				while(x == 0) {
+				checkInt = 0;
+				while(checkInt == 0) {
+					
 					System.out.println("\tID: ");
 					staffId = input.nextLine();
+					staffId = staffId.toLowerCase();
 					
 					if(checkId(staffId) == true) {
-						x = 1;
+						for (Person person : personList) {
+							if(person.getId().contains(staffId)) {
+								System.out.println("\tDuplicate ID detected.");
+								System.out.println("\tTwo people must not have the same ID.\n");
+							}
+							else {
+								checkInt = 1;
+							}
+						}
+//						if (counter > 0) {
+//							checkInt = 0;
+//						} else {
+//							checkInt = 1;
+//						}
 					}
 					else {
 						System.out.println("\tInvalid ID format.");
-						System.out.println("\tMust be LetterLetterDigitDigitDigitDigit");
+						System.out.println("\tMust be LetterLetterDigitDigitDigitDigit\n");
+						
 					}
 				}
 				
 				Staff staff = new Staff(staffName, staffId);
 				
-				x = 0;
-				while (x == 0) {
+				checkInt = 0;
+				while (checkInt == 0) {
 					System.out.println("\tDepartment: ");
 					String department = input.nextLine();
 					if(department.compareToIgnoreCase("Mathematics") == 0) {
 						department = "Mathematics";
 						staff.setDepartment(department);
-						x = 1;
+						checkInt = 1;
 					} else if (department.compareToIgnoreCase("Engineering") == 0) {
 						department = "Engineering";
 						staff.setDepartment(department);
-						x = 1;
+						checkInt = 1;
 					} else if (department.compareToIgnoreCase("English") == 0) {
 						department = "English";
 						staff.setDepartment(department);
-						x = 1;
+						checkInt = 1;
 					} else {
 						System.out.println("\t\"" + department + "\" is invalid");
 					}
 				}
 				
-				x = 0;
-				while (x == 0) {
+				checkInt = 0;
+				while (checkInt == 0) {
 					System.out.println("\tStatus, Enter P for Part Time, or Enter F for Full Time: ");
 					String status = input.nextLine();
 					if(status.compareToIgnoreCase("P") == 0) {
 						status = "Part Time";
 						staff.setStatus(status);
-						x = 1;
+						checkInt = 1;
 					} else if (status.compareToIgnoreCase("F") == 0) {
 						status = "Full Time";
 						staff.setStatus(status);
-						x = 1;
+						checkInt = 1;
 					} else {
 						System.out.println("\tInvalid Status format.");
 					}
@@ -331,6 +379,7 @@ public class FinalProject {
 				//print staff info
 				System.out.println("Enter the Staff's ID:");
 				id = input.nextLine();
+				id = id.toLowerCase();
 		        for (Person person : personList) {
 		            if (person instanceof Staff) {
 		                Staff staffObj = (Staff) person;
@@ -357,6 +406,7 @@ public class FinalProject {
 			    // delete entry
 			    System.out.println("Enter the id of the person to delete: ");
 			    id = input.nextLine();
+			    id = id.toLowerCase();
 			    boolean personFound = false;
 
 			    Iterator<Person> iterator = personList.iterator();
