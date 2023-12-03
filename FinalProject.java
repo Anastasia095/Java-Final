@@ -73,6 +73,7 @@ public class FinalProject {
       String select = scanner.nextLine();
       Scanner input = new Scanner(System.in);
       boolean found = false;
+      //i'm flipping it so its easier to read (Ana)
       boolean duplicate = false;
 
       switch (select) {
@@ -85,7 +86,6 @@ public class FinalProject {
         String facultyId = null;
 
         int checkInt = 0;
-        //i'm flipping it so its easier to read (Ana)
         while (checkInt == 0) {
           System.out.println("\tID: ");
           facultyId = input.nextLine();
