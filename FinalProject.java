@@ -97,7 +97,7 @@ case "1":
 					if(checkId(facultyId) == true) {
 						duplicate = checkDuplicate(facultyId, personList);
 						if (!duplicate) {
-							//if no duplicate found set z to 1 to get out of the while
+							//if no duplicate found checkInt z to 1 to get out of the while
 							System.out.println("check if this happens\n");
 							checkInt = 1;
 						}
@@ -168,23 +168,16 @@ case "1":
 					
 					System.out.println("\tID: ");
 					studentId = input.nextLine();
-					studentId = studentId.toLowerCase();
-					
+					studentId = studentId.toLowerCase();			
+					//reset duplicate
+					duplicate = false;
 					if(checkId(studentId) == true) {
-						for (Person person : personList) {
-							if(person.getId().contains(studentId)) {
-								System.out.println("\tDuplicate ID detected.");
-								System.out.println("\tTwo people must not have the same ID.\n");
-							}
-							else {
-								checkInt = 1;
-							}
+						duplicate = checkDuplicate(studentId, personList);
+						if (!duplicate) {
+							//if no duplicate found checkInt z to 1 to get out of the while
+							System.out.println("check if this happens\n");
+							checkInt = 1;
 						}
-//						if (counter > 0) {
-//							checkInt = 0;
-//						} else {
-//							checkInt = 1;
-//						}
 					}
 					else {
 						System.out.println("\tInvalid ID format.");
@@ -299,21 +292,15 @@ case "1":
 					staffId = input.nextLine();
 					staffId = staffId.toLowerCase();
 					
+					//reset duplicate
+					duplicate = false;
 					if(checkId(staffId) == true) {
-						for (Person person : personList) {
-							if(person.getId().contains(staffId)) {
-								System.out.println("\tDuplicate ID detected.");
-								System.out.println("\tTwo people must not have the same ID.\n");
-							}
-							else {
-								checkInt = 1;
-							}
+						duplicate = checkDuplicate(staffId, personList);
+						if (!duplicate) {
+							//if no duplicate found checkInt z to 1 to get out of the while
+							System.out.println("check if this happens\n");
+							checkInt = 1;
 						}
-//						if (counter > 0) {
-//							checkInt = 0;
-//						} else {
-//							checkInt = 1;
-//						}
 					}
 					else {
 						System.out.println("\tInvalid ID format.");
